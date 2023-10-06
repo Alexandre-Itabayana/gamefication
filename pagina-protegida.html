@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Página de Login</title>
+</head>
+<body>
+    <h1>Login</h1>
+    <div id="conteudo-login">
+        <!-- O conteúdo da página de login será exibido aqui -->
+        <form id="form-id">
+            <label for="usuario">Usuário:</label>
+            <input type="text" id="usuario" name="usuario" required><br><br>
+
+            <label for="senha">Senha:</label>
+            <input type="password" id="senha" name="senha" required><br><br>
+
+            <button type="submit">Entrar</button>
+        </form>
+    </div>
+
+    <script>
+    document.addEventListener("DOMContentLoaded", function() {
+        const form = document.getElementById("form-id");
+        const conteudoLogin = document.getElementById("conteudo-login");
+
+        form.addEventListener("submit", function(event) {
+            event.preventDefault(); // Impede o envio do formulário padrão
+            
+            // Serialize o formulário para enviar os dados
+            const formData = new FormData(form);
+
+            fetch("http://localhost:3000/node-login", {
+                method: "POST",
+                body: formData
+            })
+            .then(response => response.text())
+            .then(data => {
+                // Atualiza o conteúdo da div "conteudo-login" com a resposta do servidor Node.js
+                conteudoLogin.innerHTML = data;
+            })
+            .catch(error => {
+                console.error("Erro na solicitação:", error);
+            });
+        });
+    });
+    </script>
+</body>
+</html>
