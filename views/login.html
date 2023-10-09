@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+    <title>Página de Login</title>
+</head>
+<body>
+    <h1>Login</h1>
+    <form action="/login" method="post" id="login-form">
+        <label for="usuario">Usuário:</label>
+        <input type="text" id="usuario" name="usuario" required><br><br>
+
+        <label for="senha">Senha:</label>
+        <input type="password" id="senha" name="senha" required><br><br>
+
+        <button type="submit">Entrar</button>
+    </form>
+    <script>
+jQuery(document).ready(function($) {
+    // Adicione este código para tratar o envio do formulário
+    $('#login-form').on('submit', function(e) {
+        e.preventDefault();
+        var formData = $(this).closest('form').serialize();
+         $.ajax({
+            url: 'http://localhost:3000/login',
+            type: 'POST',
+            data: formData,
+            success: function(data) {
+                    if(data==='Login bem-sucedido'){
+                        
+                    }
+                    else{
+
+                    }
+                
+                    /* $.ajax({
+                        url: 'http://localhost:3000/logado', // URL da rota /logado
+                        type: 'GET',
+                        success: function(logadoData) {
+                            
+                            $('#teste-id').html(logadoData);
+                        },
+                        error: function(error) {
+                            console.error(error);
+                        }
+                    }); */
+                
+            },
+            error: function(error) {
+                console.error(error);
+            }
+        }); 
+    });
+});
+
+    </script>
+</body>
+</html>
