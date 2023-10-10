@@ -25,12 +25,14 @@
                 e.preventDefault();
                 var formData = $(this).closest('form').serialize();
                 if ($('#teste-id').length) { // Verifique se #teste-id existe
-                    console.log('foi')
                     $.ajax({
+                        
                         url: 'http://localhost:3000/login',
                         type: 'POST',
                         data: formData,
                         success: function(data) {
+                    e.preventDefault();
+
                             $.ajax({
                                 url: 'http://localhost:3000/logado',
                                 type: 'GET',
