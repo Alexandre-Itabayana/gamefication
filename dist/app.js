@@ -31,36 +31,49 @@ const bodyParser = __importStar(require("body-parser"));
 const cors_1 = __importDefault(require("cors"));
 const express_session_1 = __importDefault(require("express-session"));
 const auth_1 = require("./auth/auth");
+const jsonwebtoken_1 = __importDefault(require("jsonwebtoken"));
+const cookie_parser_1 = __importDefault(require("cookie-parser"));
 const app = (0, express_1.default)();
 const port = process.env.PORT || 3000;
 app.use(express_1.default.static('public'));
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use((0, cors_1.default)()); // cors
+app.use((req, res, next) => {
+    res.header('Access-Control-Allow-Origin', 'https://conasemsaulas.codebit.biz'); // Domínio permitido
+    res.header('Access-Control-Allow-Credentials', 'true'); // Permite credenciais (cookies)
+    next();
+});
 app.use((0, express_session_1.default)({
     secret: 'sua-chave-secreta-aqui',
     resave: true,
     saveUninitialized: false,
 }));
-let teste = '';
+app.use((0, cookie_parser_1.default)());
 app.get('/', (req, res) => {
     res.sendFile(__dirname + '/views/login.html');
 });
 app.post('/login', (req, res) => {
     const { usuario, senha } = req.body;
     if ((0, auth_1.authenticate)(usuario, senha)) {
-        teste = 'ok';
-        res.redirect(`/logado?name=${usuario}`);
-    }
-    else {
-        res.redirect('/');
+        // Crie um token JWT com o nome do usuário
+        const token = jsonwebtoken_1.default.sign({ nomeUsuario: usuario }, 'chave-secreta-jwt');
+        // Configurar o cookie para ser seguro e permitir solicitações cross-origin
+        res.cookie('token', token, { sameSite: 'none', secure: true });
+        res.redirect('/logado');
     }
 });
 app.get('/logado', (req, res) => {
-    if (teste === 'ok') {
-        res.sendFile(__dirname + '/views/logado.html');
+    const token = req.cookies.token;
+    if (token) {
+        try {
+            res.sendFile(__dirname + '/views/logado.html');
+        }
+        catch (err) {
+            res.status(401).json({ msg: 'Token inválido. Acesso não autorizado.' });
+        }
     }
     else {
-        res.redirect('/');
+        res.redirect('/'); // Se o token não estiver presente, redirecione para a página de login
     }
 });
 app.listen(port, () => {

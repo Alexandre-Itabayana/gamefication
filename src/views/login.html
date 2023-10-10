@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="pt-br">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -7,6 +8,7 @@
 
     <title>Página de Login</title>
 </head>
+
 <body>
     <h1>Login</h1>
     <form action="/login" method="post" id="login-form">
@@ -19,32 +21,35 @@
         <button type="submit">Entrar</button>
     </form>
     <script>
-        jQuery(document).ready(function($) {
+        jQuery(document).ready(function ($) {
             // Adicione este código para tratar o envio do formulário
-            $('#login-form').on('submit', function(e) {
+            $('#login-form').on('submit', function (e) {
                 e.preventDefault();
                 var formData = $(this).closest('form').serialize();
                 if ($('#teste-id').length) { // Verifique se #teste-id existe
                     $.ajax({
-                        
+
                         url: 'http://localhost:3000/login',
                         type: 'POST',
                         data: formData,
-                        success: function(data) {
-                        e.preventDefault();
+                        xhrFields: {
+                            withCredentials: true // Permite incluir cookies na solicitação
+                        },
+                        success: function (data) {
+                            e.preventDefault();
 
                             $.ajax({
                                 url: 'http://localhost:3000/logado',
                                 type: 'GET',
-                                success: function(logadoData) {
+                                success: function (logadoData) {
                                     $('#teste-id').html(logadoData);
                                 },
-                                error: function(error) {
+                                error: function (error) {
                                     console.error(error);
                                 }
                             });
                         },
-                        error: function(error) {
+                        error: function (error) {
                             console.error(error);
                         }
                     });
@@ -54,8 +59,9 @@
                 }
             });
         });
-        
 
-    </script> 
+
+    </script>
 </body>
+
 </html>
