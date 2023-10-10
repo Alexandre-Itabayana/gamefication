@@ -12,7 +12,7 @@ app.use(cors());
 app.use(session({ secret: 'sua-chave-secreta-aqui', resave: true, saveUninitialized: false }));
 
 
-
+let teste = '';
 app.get('/', (req, res) =>{
     res.sendFile(__dirname + '/views/login.html')
 });
@@ -20,7 +20,7 @@ app.get('/', (req, res) =>{
 app.post('/login', (req, res)=>{
     const {usuario, senha} = req.body;
     if(auth.authenticate(usuario,senha)){
-        req.session.authenticated = true;
+        teste = 'ok';
         res.redirect('/logado'); 
                
     }
@@ -29,7 +29,7 @@ app.post('/login', (req, res)=>{
     }
 })
 app.get('/logado', (req, res) => {
-    if (req.session.authenticated) {
+    if (teste === 'ok') {
         res.sendFile(__dirname + '/views/logado.html');
     } else {
 
