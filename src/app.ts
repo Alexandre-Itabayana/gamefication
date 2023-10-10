@@ -1,0 +1,47 @@
+import express, { Express, Request, Response } from 'express';
+import * as bodyParser from 'body-parser';
+import cors from 'cors';
+import session from 'express-session';
+import {authenticate} from './auth/auth';
+
+const app: Express = express();
+const port: string | number = process.env.PORT || 3000;
+
+
+app.use(express.static('public'));
+app.use(bodyParser.urlencoded({extended : false}));
+app.use(cors()); // cors
+app.use(
+    session({
+        secret: 'sua-chave-secreta-aqui',
+        resave: true,
+        saveUninitialized: false,
+      })
+)
+let teste: string = '';
+
+app.get('/', (req: Request, res: Response) => {
+  res.sendFile(__dirname + '/views/login.html');
+});
+
+app.post('/login', (req: Request, res: Response) => {
+  const { usuario, senha } = req.body;
+  if (authenticate(usuario, senha)) {
+    teste = 'ok';
+    res.redirect(`/logado?name=${usuario}`);
+  } else {
+    res.redirect('/');
+  }
+});
+
+app.get('/logado', (req: Request, res: Response) => {
+  if (teste === 'ok') {
+    res.sendFile(__dirname + '/views/logado.html');
+  } else {
+    res.redirect('/');
+  }
+});
+
+app.listen(port, () => {
+  console.log(`Servidor rodando em http://localhost:${port}`);
+});
