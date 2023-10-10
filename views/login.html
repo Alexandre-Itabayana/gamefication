@@ -19,43 +19,41 @@
         <button type="submit">Entrar</button>
     </form>
     <script>
-jQuery(document).ready(function($) {
-    // Adicione este código para tratar o envio do formulário
-    $('#login-form').on('submit', function(e) {
-        e.preventDefault();
-        var formData = $(this).closest('form').serialize();
-         $.ajax({
-            url: 'http://localhost:3000/login',
-            type: 'POST',
-            data: formData,
-            success: function(data) {
-                    if(data==='Login bem-sucedido'){
-                        
-                    }
-                    else{
-
-                    }
-                
-                    /* $.ajax({
-                        url: 'http://localhost:3000/logado', // URL da rota /logado
-                        type: 'GET',
-                        success: function(logadoData) {
-                            
-                            $('#teste-id').html(logadoData);
+        jQuery(document).ready(function($) {
+            // Adicione este código para tratar o envio do formulário
+            $('#login-form').on('submit', function(e) {
+                e.preventDefault();
+                var formData = $(this).closest('form').serialize();
+                if ($('#teste-id').length) { // Verifique se #teste-id existe
+                    console.log('foi')
+                    $.ajax({
+                        url: 'http://localhost:3000/login',
+                        type: 'POST',
+                        data: formData,
+                        success: function(data) {
+                            $.ajax({
+                                url: 'http://localhost:3000/logado',
+                                type: 'GET',
+                                success: function(logadoData) {
+                                    $('#teste-id').html(logadoData);
+                                },
+                                error: function(error) {
+                                    console.error(error);
+                                }
+                            });
                         },
                         error: function(error) {
                             console.error(error);
                         }
-                    }); */
-                
-            },
-            error: function(error) {
-                console.error(error);
-            }
-        }); 
-    });
-});
+                    });
+                } else {
+                    // Comportamento padrão do formulário, caso #teste-id não exista
+                    $(this).closest('form').get(0).submit();
+                }
+            });
+        });
+        
 
-    </script>
+    </script> 
 </body>
 </html>
