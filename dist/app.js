@@ -42,7 +42,6 @@ app.use((0, express_session_1.default)({
     resave: true,
     saveUninitialized: false,
 }));
-let teste = '';
 app.get('/', (req, res) => {
     res.sendFile(__dirname + '/views/login.html');
 });

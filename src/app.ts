@@ -19,7 +19,6 @@ app.use(
         saveUninitialized: false,
       })
 )
-let teste: string = '';
 
 app.get('/', (req: Request, res: Response) => {
   res.sendFile(__dirname + '/views/login.html');
