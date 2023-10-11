@@ -6,6 +6,36 @@
     <title>Página de Login</title>
 </head>
 <body>
+<<<<<<< Updated upstream
     <h1>Logado!</h1>
+=======
+    <div id="nome-usuario">Logado: Carregando...</div>
+
+    <script>
+       function getCookie(name) {
+    const cookies = document.cookie.split(';');
+    for (const cookie of cookies) {
+        const [cookieName, cookieValue] = cookie.trim().split('=');
+        if (cookieName === name) {
+            return decodeURIComponent(cookieValue);
+        }
+    }
+    return null;
+}
+
+// Obtém o token do cookie "token"
+const token = getCookie('cngtoken');
+
+if (token) {
+    // Decodifica o token JWT para obter o nome do usuário
+    const decodedToken = JSON.parse(atob(token.split('.')[1]));
+    const nomeUsuario = decodedToken.nomeUsuario;
+
+    // Exibe o nome do usuário na página
+    const nomeUsuarioElement = document.getElementById('nome-usuario');
+    nomeUsuarioElement.textContent = `Logado: ${nomeUsuario}`;
+}
+    </script>
+>>>>>>> Stashed changes
 </body>
 </html>
