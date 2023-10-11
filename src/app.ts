@@ -25,6 +25,7 @@ app.get('/', (req: Request, res: Response) => {
 });
 
 app.post('/login', (req: Request, res: Response) => {
+<<<<<<< Updated upstream
   const { usuario, senha } = req.body;
   if (authenticate(usuario, senha)) {
     teste = 'ok';
@@ -40,6 +41,29 @@ app.get('/logado', (req: Request, res: Response) => {
   } else {
     res.redirect('/');
   }
+=======
+    const { usuario, senha } = req.body;
+    if (authenticate(usuario, senha)) {
+        // Crie um token JWT com o nome do usuário
+        const token = jwt.sign({ nomeUsuario: usuario }, 'chave-secreta-jwt');
+        // Configurar o cookie para ser seguro e permitir solicitações cross-origin
+        res.cookie('cngtoken', token, { sameSite: 'none', secure: true });
+        res.redirect('/logado');
+
+
+    }
+});
+
+app.get('/logado', (req: Request, res: Response) => {
+    const token = req.cookies.cngtoken;
+        try {
+            res.sendFile(__dirname + '/views/logado.html');
+
+        } catch (err) {
+            res.status(401).json({ msg: 'Token inválido. Acesso não autorizado.' });
+        }
+
+>>>>>>> Stashed changes
 });
 
 app.listen(port, () => {
