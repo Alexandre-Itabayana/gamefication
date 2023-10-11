@@ -3,6 +3,7 @@ import * as bodyParser from 'body-parser';
 import cors from 'cors';
 import session from 'express-session';
 import {authenticate} from './auth/auth';
+import jwt from 'jsonwebtoken';
 
 const app: Express = express();
 const port: string | number = process.env.PORT || 3000;
@@ -25,23 +26,6 @@ app.get('/', (req: Request, res: Response) => {
 });
 
 app.post('/login', (req: Request, res: Response) => {
-<<<<<<< Updated upstream
-  const { usuario, senha } = req.body;
-  if (authenticate(usuario, senha)) {
-    teste = 'ok';
-    res.redirect(`/logado?name=${usuario}`);
-  } else {
-    res.redirect('/');
-  }
-});
-
-app.get('/logado', (req: Request, res: Response) => {
-  if (teste === 'ok') {
-    res.sendFile(__dirname + '/views/logado.html');
-  } else {
-    res.redirect('/');
-  }
-=======
     const { usuario, senha } = req.body;
     if (authenticate(usuario, senha)) {
         // Crie um token JWT com o nome do usuário
@@ -55,7 +39,6 @@ app.get('/logado', (req: Request, res: Response) => {
 });
 
 app.get('/logado', (req: Request, res: Response) => {
-    const token = req.cookies.cngtoken;
         try {
             res.sendFile(__dirname + '/views/logado.html');
 
@@ -63,7 +46,6 @@ app.get('/logado', (req: Request, res: Response) => {
             res.status(401).json({ msg: 'Token inválido. Acesso não autorizado.' });
         }
 
->>>>>>> Stashed changes
 });
 
 app.listen(port, () => {

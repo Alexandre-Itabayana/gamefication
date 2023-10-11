@@ -6,41 +6,32 @@
     <title>Página de Login</title>
 </head>
 <body>
-    <h1 id="logado-text">Logado!</h1>
+    <div id="nome-usuario">Logado: Carregando...</div>
+
     <script>
-<<<<<<< Updated upstream
-        // JavaScript to extract and set the name from the query parameter
-        const params = new URLSearchParams(window.location.search);
-        const name = params.get('name');
-        if (name) {
-            document.getElementById('logado-text').textContent = `Logado ${name}`;
+       function getCookie(name) {
+    const cookies = document.cookie.split(';');
+    for (const cookie of cookies) {
+        const [cookieName, cookieValue] = cookie.trim().split('=');
+        if (cookieName === name) {
+            return decodeURIComponent(cookieValue);
         }
-=======
-        function getCookie(name) {
-            const cookies = document.cookie.split(';');
-            console.log(cookies)
-            for (const cookie of cookies) {
-                const [cookieName, cookieValue] = cookie.trim().split('=');
-                if (cookieName === name) {
-                    return decodeURIComponent(cookieValue);
-                }
-            }
-            return null;
-        }
+    }
+    return null;
+}
 
-        // Obtém o token do cookie "token"
-        const token = getCookie('cngtoken');
+// Obtém o token do cookie "token"
+const token = getCookie('cngtoken');
 
-        if (token) {
-            // Decodifica o token JWT para obter o nome do usuário
-            const decodedToken = JSON.parse(atob(token.split('.')[1]));
-            const nomeUsuario = decodedToken.nomeUsuario;
+if (token) {
+    // Decodifica o token JWT para obter o nome do usuário
+    const decodedToken = JSON.parse(atob(token.split('.')[1]));
+    const nomeUsuario = decodedToken.nomeUsuario;
 
-            // Exibe o nome do usuário na página
-            const nomeUsuarioElement = document.getElementById('nome-usuario');
-            nomeUsuarioElement.textContent = `Logado: ${nomeUsuario}`;
-        }
->>>>>>> Stashed changes
+    // Exibe o nome do usuário na página
+    const nomeUsuarioElement = document.getElementById('nome-usuario');
+    nomeUsuarioElement.textContent = `Logado: ${nomeUsuario}`;
+}
     </script>
 </body>
 </html>
