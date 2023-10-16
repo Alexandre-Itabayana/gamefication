@@ -5,3 +5,4 @@ function authenticate(usuario, senha) {
     return usuario === 'admin' && senha === '1234';
 }
 exports.authenticate = authenticate;
+//# sourceMappingURL=auth.js.map
